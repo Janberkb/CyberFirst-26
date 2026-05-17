@@ -22,3 +22,33 @@ ParentProcessId: 948
 ParentImage: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
 ParentCommandLine: "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" 
 ParentUser: DESKTOP-4U5SKL5\Victim
+
+<-- local_rules.xml -->
+
+<group name="sysmon, windows, persistence, defense_evasion,">
+
+  <!-- Ana Kural: Şüpheli PowerShell parametreleri ile Zamanlanmış Görev oluşturulması -->
+  <rule id="100010" level="12">
+    <if_sid>61603</if_sid> <!-- Wazuh'un standart Sysmon Event ID 1 (Process Create) kuralı -->
+    <field name="win.eventdata.originalFileName" type="pcre2">(?i)^schtasks\.exe$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)/create</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)powershell.*(?:Hidden|WindowStyle).*?(?:Bypass|ExecutionPolicy)</field>
+    <description>Şüpheli Aktivite: Zamanlanmış görev üzerinden gizli ve kısıtlamaları atlayan (Bypass/Hidden) PowerShell komutu tespit edildi.</description>
+    <mitre>
+      <id>T1053.005</id> <!-- Scheduled Task/Job: Scheduled Task -->
+      <id>T1059.001</id> <!-- Command and Scripting Interpreter: PowerShell -->
+      <id>T1562.001</id> <!-- Impair Defenses: Disable or Modify Tools -->
+    </mitre>
+  </rule>
+
+  <!-- Alt Kural: Direkt olarak "spy.ps1" veya Public dizini kullanımı (Daha yüksek öncelikli/spesifik) -->
+  <rule id="100011" level="14">
+    <if_sid>100010</if_sid> <!-- Bir önceki kuralı ebeveyn olarak alır -->
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)C:\\Users\\Public\\.*\.ps1</field>
+    <description>Kritik Uyarı: Public dizininden PowerShell betiği çalıştıran zamanlanmış görev oluşturuldu (Potansiyel spy.ps1 enfeksiyonu).</description>
+    <mitre>
+      <id>T1053.005</id>
+    </mitre>
+  </rule>
+
+</group>
